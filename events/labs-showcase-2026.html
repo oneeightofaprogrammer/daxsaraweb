@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Labs — First Cohort Showcase — Daxsara Events</title>
+<meta name="description" content="The first cohort of Daxsara Labs presented what three months of building produced.">
+<link rel="canonical" href="https://daxsara.com/events/labs-showcase-2026.html">
+<meta property="og:title" content="Labs — First Cohort Showcase — Daxsara">
+<meta property="og:description" content="The first cohort of Daxsara Labs presented what three months of building produced.">
+<meta property="og:type" content="article">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="nav" aria-label="Primary">
+  <a href="../index.html" class="nav__mark"><span data-star data-star-stroke="var(--ink)"></span><span>Daxsara</span></a>
+  <div class="nav__links">
+    <a href="../events.html" aria-current="page" data-i18n="nav.events">Events</a>
+    <a href="../academy.html" data-i18n="nav.academy">Academy</a>
+    <a href="../services.html" data-i18n="nav.services">Services</a>
+    <a href="../thought.html" data-i18n="nav.thought">Thought</a>
+    <a href="../about.html" data-i18n="nav.about">About</a>
+    <button class="nav__lang" type="button">فا</button>
+  </div>
+  <button class="nav__burger" aria-label="Open menu" aria-expanded="false"><span data-star data-star-stroke="var(--ink)"></span></button>
+</nav>
+<div class="menu-full" id="menu">
+  <a href="../events.html">Events</a><a href="../academy.html">Academy</a><a href="../services.html">Services</a>
+  <a href="../thought.html">Thought</a><a href="../about.html">About</a><a href="../contact.html">Contact</a>
+</div>
+
+<main>
+  <section class="event-hero wrap">
+    <a href="../events.html" class="type-small" style="border-bottom:1px solid var(--line-strong);">← All events</a>
+    <h1 class="type-display" style="margin-top:24px;" data-reveal>Labs — First Cohort Showcase</h1>
+    <div class="event-hero__meta">
+      <span>June 20, 2026</span><span>Tehran</span><span>Hedish, Main Atrium</span><span style="color:var(--carmine)">Academy</span>
+    </div>
+  </section>
+
+  <section class="event-body wrap">
+    <div data-reveal>
+      <p class="type-lead">The first cohort of Daxsara Labs presented what three months of building produced.</p>
+      <p class="type-body" style="margin-top:26px;">The closing manifestation of Daxsara Labs' first three-month cycle. Eighteen participants presented the work they built — not assignments, but real propositions carried from question to object. Open to families, mentors, and the public inside Hedish.</p>
+    </div>
+    <aside class="event-body__side" data-reveal>
+      <div class="box">
+        <h4>Details</h4>
+        <p class="type-small">Date<br><strong style="color:var(--ink)">June 20, 2026</strong></p>
+        <p class="type-small" style="margin-top:14px;">Location<br><strong style="color:var(--ink)">Hedish, Main Atrium, Tehran</strong></p>
+        <p class="type-small" style="margin-top:14px;">Participants<br><strong style="color:var(--ink)">Labs Cohort 01</strong></p>
+      </div>
+      <a class="event-cta" href="../contact.html">Request to attend</a>
+    </aside>
+  </section>
+
+  <section class="wrap" style="padding-bottom:100px;">
+    <span class="statement__eyebrow">Related events</span>
+    <div class="timeline mt-lg" id="upcoming-timeline"></div>
+  </section>
+</main>
+
+<footer class="footer wrap">
+  <div class="footer__row">
+    <div class="footer__col"><h4 data-i18n="footer.explore">Explore</h4>
+      <a href="../events.html" data-i18n="nav.events">Events</a><a href="../academy.html" data-i18n="nav.academy">Academy</a>
+      <a href="../services.html" data-i18n="nav.services">Services</a><a href="../work.html" data-i18n="nav.work">Work</a><a href="../thought.html" data-i18n="nav.thought">Thought</a>
+    </div>
+    <div class="footer__col"><h4 data-i18n="footer.company">Company</h4>
+      <a href="../about.html" data-i18n="nav.about">About</a><a href="../contact.html" data-i18n="nav.contact">Contact</a>
+    </div>
+    <div class="footer__col"><h4 data-i18n="footer.connect">Connect</h4>
+      <a href="mailto:hello@daxsara.com">hello@daxsara.com</a><a href="https://instagram.com/daxsara" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </div>
+  <div class="footer__bottom"><span data-i18n="footer.tagline">We bring thought into the world.</span><span>© 2026 <span data-i18n="footer.rights">Daxsara. All rights reserved.</span></span></div>
+</footer>
+
+<script src="../js/data.js"></script>
+<script src="../js/i18n.js"></script>
+<script src="../js/main.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('#upcoming-timeline a.tl-item__link').forEach(a=>{
+      a.setAttribute('href', a.getAttribute('href').replace('events/',''));
+    });
+  });
+</script>
+</body>
+</html>

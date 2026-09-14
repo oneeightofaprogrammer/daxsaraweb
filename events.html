@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events — Daxsara</title>
+<meta name="description" content="A complete archive of Daxsara's events — upcoming, ongoing, and past.">
+<link rel="canonical" href="https://daxsara.com/events.html">
+<meta property="og:title" content="Events — Daxsara">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="nav" aria-label="Primary">
+  <a href="index.html" class="nav__mark"><span data-star data-star-stroke="var(--ink)"></span><span>Daxsara</span></a>
+  <div class="nav__links">
+    <a href="events.html" aria-current="page" data-i18n="nav.events">Events</a>
+    <a href="academy.html" data-i18n="nav.academy">Academy</a>
+    <a href="services.html" data-i18n="nav.services">Services</a>
+    <a href="thought.html" data-i18n="nav.thought">Thought</a>
+    <a href="about.html" data-i18n="nav.about">About</a>
+    <button class="nav__lang" type="button">فا</button>
+  </div>
+  <button class="nav__burger" aria-label="Open menu" aria-expanded="false"><span data-star data-star-stroke="var(--ink)"></span></button>
+</nav>
+<div class="menu-full" id="menu">
+  <a href="events.html">Events</a><a href="academy.html">Academy</a><a href="services.html">Services</a>
+  <a href="thought.html">Thought</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+</div>
+
+<main>
+  <section class="page-hero wrap">
+    <span class="page-hero__eyebrow" data-i18n="nav.events">Events</span>
+    <h1 class="type-display" data-reveal>Daxsara is always moving through a calendar of encounters.</h1>
+  </section>
+
+  <section class="timeline-section wrap" style="padding-top:0;">
+    <div class="archive-filter" role="tablist" aria-label="Filter events">
+      <button class="is-active" data-filter="all" role="tab" aria-selected="true">All</button>
+      <button data-filter="upcoming" role="tab" aria-selected="false">Upcoming</button>
+      <button data-filter="past" role="tab" aria-selected="false">Past</button>
+    </div>
+    <div class="timeline" id="events-archive"></div>
+  </section>
+</main>
+
+<footer class="footer wrap">
+  <div class="footer__row">
+    <div class="footer__col"><h4 data-i18n="footer.explore">Explore</h4>
+      <a href="events.html" data-i18n="nav.events">Events</a><a href="academy.html" data-i18n="nav.academy">Academy</a>
+      <a href="services.html" data-i18n="nav.services">Services</a><a href="work.html" data-i18n="nav.work">Work</a><a href="thought.html" data-i18n="nav.thought">Thought</a>
+    </div>
+    <div class="footer__col"><h4 data-i18n="footer.company">Company</h4>
+      <a href="about.html" data-i18n="nav.about">About</a><a href="contact.html" data-i18n="nav.contact">Contact</a>
+    </div>
+    <div class="footer__col"><h4 data-i18n="footer.connect">Connect</h4>
+      <a href="mailto:hello@daxsara.com">hello@daxsara.com</a><a href="https://instagram.com/daxsara" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </div>
+  <div class="footer__bottom"><span data-i18n="footer.tagline">We bring thought into the world.</span><span>© 2026 <span data-i18n="footer.rights">Daxsara. All rights reserved.</span></span></div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
