@@ -93,7 +93,6 @@ function initOpening() {
     const total = rect.height - window.innerHeight;
     const progress = clamp01((-rect.top) / total);
 
-    // Star: begins as two flat, separated squares; rotates + merges into the star
     if (sqA && sqB) {
       const rot = progress * 45;
       const scale = 0.7 + progress * 0.3;
@@ -103,7 +102,6 @@ function initOpening() {
       star.style.transform = `scale(${0.85 + progress * 0.25}) rotate(${progress * 22}deg)`;
     }
 
-    // Text lines appear/disappear across segments
     const segments = lines.length;
     lines.forEach((line, i) => {
       const start = i / segments;
@@ -152,7 +150,6 @@ function renderEventsArchive() {
 
   function draw(filter) {
     let list = DAXSARA_EVENTS.slice();
-    const today = new Date();
     if (filter === "upcoming") list = list.filter(e => e.status === "upcoming");
     else if (filter === "past") list = list.filter(e => e.status === "past");
     list.sort((a, b) =>
@@ -209,7 +206,6 @@ function renderThoughtList() {
   ).join("");
 }
 
-
 /* ---------- Event nest sequence (sequential concepts) ---------- */
 function initEventNest() {
   const section = document.querySelector(".event-nest");
@@ -224,7 +220,6 @@ function initEventNest() {
     const total = Math.max(1, rect.height - window.innerHeight);
     const progress = clamp01((-rect.top) / total);
 
-    // Frames: outer → inner scale in sequence (nesting dolls)
     frames.forEach((frame, i) => {
       const start = i / (frames.length + 0.5);
       const local = clamp01((progress - start) / 0.55);
@@ -234,7 +229,6 @@ function initEventNest() {
       frame.style.opacity = String(opacity);
     });
 
-    // Lines appear one at a time across progress segments
     const n = lines.length || 1;
     lines.forEach((line, i) => {
       const start = i / n;
@@ -256,12 +250,65 @@ function initEventNest() {
   window.addEventListener("resize", update);
 }
 
+/* ---------- Academy development timeline ---------- */
+function initAcademyDev() {
+  const section = document.querySelector(".academy-dev");
+  if (!section) return;
+  const stage = section.querySelector(".academy-dev__stage");
+  const steps = Array.from(section.querySelectorAll(".academy-dev__step"));
+  const tip = section.querySelector(".academy-dev__scrolltip");
+  const progressBar = section.querySelector(".academy-dev__progress");
+  const indexEl = section.querySelector(".academy-dev__index");
+  const clamp01 = v => Math.max(0, Math.min(1, v));
+  const n = steps.length || 1;
+
+  function update() {
+    const rect = section.getBoundingClientRect();
+    const total = Math.max(1, rect.height - window.innerHeight);
+    const progress = clamp01((-rect.top) / total);
+
+    if (progressBar) progressBar.style.height = `${progress * 100}%`;
+
+    let active = 0;
+    steps.forEach((step, i) => {
+      const start = i / n;
+      const end = (i + 1) / n;
+      const mid0 = start + (end - start) * 0.08;
+      const mid1 = end - (end - start) * 0.12;
+      const visible = progress >= mid0 && progress <= mid1;
+      step.classList.toggle("is-visible", visible);
+      if (visible) active = i;
+    });
+
+    if (!steps.some(s => s.classList.contains("is-visible"))) {
+      active = Math.min(n - 1, Math.floor(progress * n));
+      if (steps[active]) steps[active].classList.add("is-visible");
+    }
+
+    const shifted = steps[active] && steps[active].hasAttribute("data-shift");
+    if (stage) stage.classList.toggle("is-shifted", !!shifted);
+
+    if (indexEl) {
+      indexEl.textContent = `${String(active + 1).padStart(2, "0")} / ${String(n).padStart(2, "0")}`;
+    }
+
+    if (tip) {
+      tip.style.opacity = progress > 0.94 ? "0" : "1";
+    }
+  }
+
+  update();
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+}
+
 /* ---------- Boot ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   mountStars();
   initNav();
   initOpening();
   initEventNest();
+  initAcademyDev();
   renderUpcomingPreview();
   renderEventsArchive();
   renderWorkGrid();
