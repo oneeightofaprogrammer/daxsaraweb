@@ -209,11 +209,59 @@ function renderThoughtList() {
   ).join("");
 }
 
+
+/* ---------- Event nest sequence (sequential concepts) ---------- */
+function initEventNest() {
+  const section = document.querySelector(".event-nest");
+  if (!section) return;
+  const frames = Array.from(section.querySelectorAll(".event-nest__frame"));
+  const lines = Array.from(section.querySelectorAll(".event-nest__line"));
+  const tip = section.querySelector(".event-nest__scrolltip");
+  const clamp01 = v => Math.max(0, Math.min(1, v));
+
+  function update() {
+    const rect = section.getBoundingClientRect();
+    const total = Math.max(1, rect.height - window.innerHeight);
+    const progress = clamp01((-rect.top) / total);
+
+    // Frames: outer → inner scale in sequence (nesting dolls)
+    frames.forEach((frame, i) => {
+      const start = i / (frames.length + 0.5);
+      const local = clamp01((progress - start) / 0.55);
+      const scale = 0.72 + local * 0.28;
+      const opacity = 0.08 + local * 0.42;
+      frame.style.transform = `scale(${scale})`;
+      frame.style.opacity = String(opacity);
+    });
+
+    // Lines appear one at a time across progress segments
+    const n = lines.length || 1;
+    lines.forEach((line, i) => {
+      const start = i / n;
+      const end = (i + 1) / n;
+      const mid0 = start + (end - start) * 0.12;
+      const mid1 = end - (end - start) * 0.18;
+      const visible = progress >= mid0 && progress <= mid1;
+      line.classList.toggle("is-visible", visible);
+    });
+
+    if (tip) {
+      tip.style.opacity = progress > 0.92 ? "0" : "1";
+      tip.style.transition = "opacity 400ms ease";
+    }
+  }
+
+  update();
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+}
+
 /* ---------- Boot ---------- */
 document.addEventListener("DOMContentLoaded", () => {
   mountStars();
   initNav();
   initOpening();
+  initEventNest();
   renderUpcomingPreview();
   renderEventsArchive();
   renderWorkGrid();
