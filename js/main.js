@@ -85,7 +85,6 @@ function initOpening() {
   const sqA = star ? star.querySelector(".star-sq--a") : null;
   const sqB = star ? star.querySelector(".star-sq--b") : null;
   const lines = Array.from(section.querySelectorAll(".opening__line"));
-
   const clamp01 = v => Math.max(0, Math.min(1, v));
 
   function update() {
@@ -94,9 +93,8 @@ function initOpening() {
     const progress = clamp01((-rect.top) / total);
 
     if (sqA && sqB) {
-      const rot = progress * 45;
       const scale = 0.7 + progress * 0.3;
-      sqA.style.transform = `rotate(${rot * 0.0}deg)`;
+      sqA.style.transform = `rotate(0deg)`;
       sqB.style.transform = `rotate(${45 * clamp01(progress * 1.4)}deg) scale(${scale})`;
       star.style.opacity = String(0.35 + progress * 0.65);
       star.style.transform = `scale(${0.85 + progress * 0.25}) rotate(${progress * 22}deg)`;
@@ -108,8 +106,7 @@ function initOpening() {
       const end = (i + 1) / segments;
       const mid0 = start + (end - start) * 0.18;
       const mid1 = end - (end - start) * 0.28;
-      const visible = progress >= mid0 && progress <= mid1;
-      line.classList.toggle("is-visible", visible);
+      line.classList.toggle("is-visible", progress >= mid0 && progress <= mid1);
     });
   }
 
@@ -235,8 +232,7 @@ function initEventNest() {
       const end = (i + 1) / n;
       const mid0 = start + (end - start) * 0.12;
       const mid1 = end - (end - start) * 0.18;
-      const visible = progress >= mid0 && progress <= mid1;
-      line.classList.toggle("is-visible", visible);
+      line.classList.toggle("is-visible", progress >= mid0 && progress <= mid1);
     });
 
     if (tip) {
@@ -258,43 +254,56 @@ function initAcademyDev() {
   const steps = Array.from(section.querySelectorAll(".academy-dev__step"));
   const tip = section.querySelector(".academy-dev__scrolltip");
   const progressBar = section.querySelector(".academy-dev__progress");
+  const node = section.querySelector(".academy-dev__node");
   const indexEl = section.querySelector(".academy-dev__index");
+  const yearBg = section.querySelector(".academy-dev__yearbg");
+  const dotsWrap = section.querySelector(".academy-dev__dots");
   const clamp01 = v => Math.max(0, Math.min(1, v));
   const n = steps.length || 1;
+
+  if (dotsWrap && dotsWrap.children.length === 0) {
+    dotsWrap.innerHTML = steps.map((_, i) =>
+      `<span class="academy-dev__dot" data-i="${i}"></span>`
+    ).join("");
+  }
+  const dots = Array.from(section.querySelectorAll(".academy-dev__dot"));
+  let lastActive = -1;
 
   function update() {
     const rect = section.getBoundingClientRect();
     const total = Math.max(1, rect.height - window.innerHeight);
     const progress = clamp01((-rect.top) / total);
 
-    if (progressBar) progressBar.style.height = `${progress * 100}%`;
+    if (progressBar) progressBar.style.height = (progress * 100) + "%";
+    if (node) node.style.top = (progress * 100) + "%";
 
-    let active = 0;
+    let active = Math.min(n - 1, Math.floor(progress * n + 1e-6));
+    if (progress >= 0.999) active = n - 1;
+
     steps.forEach((step, i) => {
-      const start = i / n;
-      const end = (i + 1) / n;
-      const mid0 = start + (end - start) * 0.08;
-      const mid1 = end - (end - start) * 0.12;
-      const visible = progress >= mid0 && progress <= mid1;
-      step.classList.toggle("is-visible", visible);
-      if (visible) active = i;
+      const on = i === active;
+      step.classList.toggle("is-visible", on);
+      step.classList.toggle("is-exit", !on && i === lastActive && lastActive !== active);
     });
 
-    if (!steps.some(s => s.classList.contains("is-visible"))) {
-      active = Math.min(n - 1, Math.floor(progress * n));
-      if (steps[active]) steps[active].classList.add("is-visible");
+    const shifted = !!(steps[active] && steps[active].hasAttribute("data-shift"));
+    if (stage) stage.classList.toggle("is-shifted", shifted);
+
+    if (yearBg && steps[active]) {
+      const dateEl = steps[active].querySelector(".academy-dev__date");
+      const m = dateEl ? dateEl.textContent.match(/(\d{4})/) : null;
+      if (m) yearBg.textContent = m[1];
     }
 
-    const shifted = steps[active] && steps[active].hasAttribute("data-shift");
-    if (stage) stage.classList.toggle("is-shifted", !!shifted);
+    dots.forEach((d, i) => d.classList.toggle("is-active", i === active));
 
     if (indexEl) {
-      indexEl.textContent = `${String(active + 1).padStart(2, "0")} / ${String(n).padStart(2, "0")}`;
+      indexEl.textContent =
+        String(active + 1).padStart(2, "0") + " / " + String(n).padStart(2, "0");
     }
 
-    if (tip) {
-      tip.style.opacity = progress > 0.94 ? "0" : "1";
-    }
+    if (tip) tip.style.opacity = progress > 0.94 ? "0" : "1";
+    lastActive = active;
   }
 
   update();
